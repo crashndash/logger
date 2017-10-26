@@ -1,3 +1,10 @@
+'use strict'
+const leftPad = require('left-pad')
+const util = require('util')
+
+const db = require('./db')
+const config = require('../config')
+
 const handleNewUserConnect = function (data) {
   db.put(data.id, data, function (err) {
     if (err) throw err
