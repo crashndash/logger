@@ -85,8 +85,7 @@ const subscriber = (pattern, channel, message) => {
     json = JSON.parse(message)
   } catch (err) {
     // @todo: FIX!
-    console.log(err)
-    return
+    throw err
   }
   let event = channel.replace(config.namespace + '.', '')
 
