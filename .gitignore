@@ -57,5 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 config.json
-.lev.history
+.lev_history
+.vscode
 .kill-switch.json
