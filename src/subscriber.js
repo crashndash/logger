@@ -33,13 +33,13 @@ const handleScores = (data) => {
     }
     let paddedScore = leftPad(data.score, 8, 0)
     let key = util.format('%s:%s', paddedScore, data.userid)
-    if (value) {
-      key = value
-    }
     db.put(key, data)
     // And store the key we use.
     let userKey = getUserScoreKey(data)
     db.put(userKey, key)
+    if (value && value !== key) {
+      db.del(value)
+    }
   })
 }
 
