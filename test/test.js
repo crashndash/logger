@@ -97,9 +97,9 @@ describe('Subscriber', () => {
       './db': {
         put: stubPut,
         get: (key, callback) => {
-          callback({
-            notFound: true
-          })
+          let err = new Error('Not found')
+          err.notFound = true
+          callback(err)
         }
       },
       '../config': stubConfig
@@ -150,7 +150,6 @@ describe('Subscriber', () => {
 
   it('Should throw when we pass an error for gettings scores', () => {
     var testId = 'testid345'
-    let expKey = '00003000:testid345'
     const sub = proxyquire('../src/subscriber', {
       './db': {
         put: stubPut,
@@ -196,7 +195,6 @@ describe('Subscriber', () => {
       },
       '../config': stubConfig
     })
-    var testId = 'testid345'
     // Add a couple of bogus ones, for coverage.
     var data = {
       room: 456
