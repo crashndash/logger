@@ -1,4 +1,5 @@
 {
   "namespace": "mynamespace",
-  "database": "mydb"
+  "database": "mydb",
+  "port": "3000"
 }

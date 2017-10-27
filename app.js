@@ -23,7 +23,7 @@ app.get('/api/iplog', function (req, res) {
   })
 })
 
-app.listen(3003, function () {
+app.listen(config.port, function () {
   console.log('Example app listening on port 3000!')
 })
 
