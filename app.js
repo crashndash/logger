@@ -19,6 +19,7 @@ app.use(cors())
 
 app.get('/api/iplog', function (req, res) {
   db.getAll('connect', true, 10, (err, val) => {
+    if (err) throw err
     res.json(val)
   })
 })
