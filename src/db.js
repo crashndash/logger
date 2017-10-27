@@ -22,5 +22,21 @@ module.exports = {
   },
   close: () => {
     database.close()
+  },
+  getAll: (key, reverse, limit, callback) => {
+    var data = []
+    database.createReadStream({
+      gt: key + ':0',
+      lt: key + ':å',
+      keys: false,
+      reverse: reverse,
+      limit: limit
+    })
+    .on('data', (d) => {
+      data.push(d)
+    })
+    .on('end', () => {
+      callback(null, data)
+    })
   }
 }
