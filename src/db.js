@@ -23,6 +23,9 @@ module.exports = {
   close: () => {
     database.close()
   },
+  getDatabase: () => {
+    return database
+  },
   getAll: (key, reverse, limit, callback) => {
     var data = []
     database.createReadStream({
