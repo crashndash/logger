@@ -92,7 +92,7 @@ describe('Subscriber', () => {
 
   it('Should save scores', () => {
     var testId = 'testid345'
-    let expKey = '00003000:testid345'
+    let expKey = 'scores:00003000:testid345'
     const sub = proxyquire('../src/subscriber', {
       './db': {
         put: stubPut,
@@ -109,14 +109,14 @@ describe('Subscriber', () => {
       score: 3000
     }
     sub('pattern', createKey('scores'), JSON.stringify(data))
-    lastData['scores:' + data.userid].should.eql(expKey)
+    lastData['scoreskeys:' + data.userid].should.eql(expKey)
     lastData[expKey].score.should.eql(data.score)
     lastData[expKey].userid.should.eql(data.userid)
   })
 
   it('Should overwrite scores', () => {
     var testId = 'testid345'
-    let expKey = '00003000:testid345'
+    let expKey = 'scores:00003000:testid345'
     const sub = proxyquire('../src/subscriber', {
       './db': {
         put: stubPut,
@@ -134,15 +134,15 @@ describe('Subscriber', () => {
       score: 3000
     }
     sub('pattern', createKey('scores'), JSON.stringify(data))
-    lastData['scores:' + data.userid].should.eql(expKey)
+    lastData['scoreskeys:' + data.userid].should.eql(expKey)
     lastData[expKey].score.should.eql(data.score)
     lastData[expKey].userid.should.eql(data.userid)
     // Now save again, and expect all things to change.
     data.score = 4000
     sub('pattern', createKey('scores'), JSON.stringify(data))
-    lastData['scores:' + data.userid].should.not.eql(expKey)
-    let newExpKey = '00004000:testid345'
-    lastData['scores:' + data.userid].should.eql(newExpKey)
+    lastData['scoreskeys:' + data.userid].should.not.eql(expKey)
+    let newExpKey = 'scores:00004000:testid345'
+    lastData['scoreskeys:' + data.userid].should.eql(newExpKey)
     should(lastData[expKey]).be.undefined()
     lastData[newExpKey].score.should.eql(data.score)
     lastData[newExpKey].userid.should.eql(data.userid)
@@ -281,11 +281,11 @@ describe('End to end', () => {
       username: 'testname',
       score: 42
     }
-    let key = util.format('scores:%s', data.userid)
+    let key = util.format('scoreskeys:%s', data.userid)
     sub('pattern', createKey('scores'), JSON.stringify(data))
     setTimeout(() => {
       db.get(key, (err, val) => {
-        let expKey = '00000042:test123'
+        let expKey = 'scores:00000042:test123'
         val.should.eql(expKey)
         should(err).eql(null)
         db.get(expKey, (err, val) => {
@@ -295,7 +295,7 @@ describe('End to end', () => {
           val.score.should.eql(data.score)
           // Then try to overwrite it.
           data.score = 43
-          let key = util.format('scores:%s', data.userid)
+          let key = util.format('scoreskeys:%s', data.userid)
           sub('pattern', createKey('scores'), JSON.stringify(data))
           // Make sure we are after the put
           setTimeout(() => {

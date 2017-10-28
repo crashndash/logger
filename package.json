@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/crashndash/logger#readme",
   "dependencies": {
+    "async": "^2.5.0",
     "cors": "^2.8.4",
     "encoding-down": "^2.3.4",
     "express": "^4.16.2",
