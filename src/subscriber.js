@@ -20,19 +20,21 @@ const handleStats = function (data) {
 }
 
 const getUserScoreKey = (data) => {
-  return util.format('scores:%s', data.userid)
+  return util.format('scoreskeys:%s', data.userid)
 }
 
 const handleScores = (data) => {
   // First nuke the score the user has.
   let userKey = getUserScoreKey(data)
-  data.date = new Date().getTime()
+  if (!data.date) {
+    data.date = new Date().getTime()
+  }
   db.get(userKey, (err, value) => {
     if (err && !err.notFound) {
       throw err
     }
     let paddedScore = leftPad(data.score, 8, 0)
-    let key = util.format('%s:%s', paddedScore, data.userid)
+    let key = util.format('scores:%s:%s', paddedScore, data.userid)
     db.put(key, data)
     // And store the key we use.
     let userKey = getUserScoreKey(data)
